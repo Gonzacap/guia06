@@ -119,6 +119,8 @@ public class Curso {
 				e.printStackTrace();
 			}
 			
+			this.inscriptos.add(a);
+			
 			return true;
 		}
 		else return false;
