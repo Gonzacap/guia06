@@ -1,5 +1,6 @@
 package died.guia06;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -9,17 +10,94 @@ public class Alumno implements Comparable {
 	private Integer nroLibreta;
 	private List<Curso> cursando;
 	private List<Curso> aprobados;
+	
+	//--------constructores---------
+	
+	public Alumno(String nombre, Integer nroLibreta) {
+		this.nombre = nombre;
+		this.nroLibreta = nroLibreta;
+		this.cursando = new ArrayList<Curso>();
+		this.aprobados = new ArrayList<Curso>();
+	}
+	
+	public Alumno() {
+	
+		this.cursando = new ArrayList<Curso>();
+		this.aprobados = new ArrayList<Curso>();
+	}
+	
+	//-------geters y seters---------
+	
+	public String getNombre() {
+		return nombre;
+	}
+	
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	
+	public Integer getNroLibreta() {
+		return nroLibreta;
+	}
+
+	public void setNroLibreta(Integer nroLibreta) {
+		this.nroLibreta = nroLibreta;
+	}
+
+	public List<Curso> getCursando() {
+		return cursando;
+	}
+
+	public void setCursando(List<Curso> cursando) {
+		this.cursando = cursando;
+	}
+
+	public List<Curso> getAprobados() {
+		return aprobados;
+	}
+
+	public void setAprobados(List<Curso> aprobados) {
+		this.aprobados = aprobados;
+	}
+	
+	//------------metodos------------
 
 	public int creditosObtenidos() {
-		return 1;
+		
+		int creditos=0;
+		for(Curso curso: aprobados){
+			creditos += curso.getCreditos();
+		}
+		return creditos;
 	}
 
 	public void aprobar(Curso c) {
-		//
+		
+		if (cursando.contains(c)) {
+			aprobados.add(c);
+			cursando.remove(c);
+		} 
+		else {
+			System.out.println("El alumno " + this.nombre + " no esta cursando " + c.getNombre());
+		}
 	}
 
 	public void inscripcionAceptada(Curso c) {
-		//
+		
+		if(c.inscribir(this)) {
+			this.cursando.add(c);
+		}
+		else System.out.println("El alumno " + this.nombre + " no se pudo inscribir al curso");
+	}
+	
+	public int cantCursandoEnCiclo(int ciclo) {
+		
+		int cant = 0;
+		
+		for(Curso c :this.cursando) {
+			if(c.getCicloLectivo()==ciclo) cant++;			
+		}
+		return cant;
 	}
 	
 	public Boolean equals(Alumno otro) {
@@ -28,11 +106,11 @@ public class Alumno implements Comparable {
 		else return false;
 	}
 
-	public int compareTo(Alumno otro) {
-		
+
+	@Override
+	public Integer compareTo(Alumno otro) {
 		return this.nombre.compareTo(otro.nombre);
 	}
-	
 	
 
 }

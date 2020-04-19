@@ -59,6 +59,60 @@ public class Curso {
 	}
 	
 	
+	//----------constructores------
+
+	public Curso(Integer id, String nombre, Integer cicloLectivo, Integer cupo,
+			Integer creditos, Integer creditosRequeridos) {
+		
+		this.id = id;
+		this.nombre = nombre;
+		this.cicloLectivo = cicloLectivo;
+		this.cupo = cupo;
+		this.creditos = creditos;
+		this.creditosRequeridos = creditosRequeridos;
+		this.inscriptos = new ArrayList<Alumno>();
+		this.log = new Registro();
+	}
+	
+	
+	
+	//----------geters y seters---------
+	
+	public Integer getId() {
+		return id;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public Integer getCicloLectivo() {
+		return cicloLectivo;
+	}
+
+	public Integer getCupo() {
+		return cupo;
+	}
+
+	public List<Alumno> getInscriptos() {
+		return inscriptos;
+	}
+
+	public int getCreditos() {
+		return creditos;
+	}
+
+	public Integer getCreditosRequeridos() {
+		return creditosRequeridos;
+	}
+
+	public Registro getLog() {
+		return log;
+	}
+
+	
+	//--------------------------
+	
 	/**
 	 * imprime los inscriptos en orden alfabetico
 	 */
@@ -71,6 +125,16 @@ public class Curso {
 			e.printStackTrace();
 		}
 	}
-
+	
+	/*public boolean inscribir(Alumno a) {
+		
+		int cantCursando = a.cantCursandoEnCiclo(this.getCicloLectivo());
+		int cantCred = a.creditosObtenidos();
+		
+		if(cantCursando<=3 && this.getCupo()>0 && this.getCreditosRequeridos()<=cantCred) {
+			return true;
+		}
+		else return false;
+	}*/
 
 }
