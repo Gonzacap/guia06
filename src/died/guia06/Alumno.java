@@ -74,8 +74,10 @@ public class Alumno implements Comparable {
 	public void aprobar(Curso c) {
 		
 		if (cursando.contains(c)) {
+			c.quitar(this);
 			aprobados.add(c);
 			cursando.remove(c);
+			System.out.println("El alumno " + this.nombre + " aprobo " + c.getNombre());
 		} 
 		else {
 			System.out.println("El alumno " + this.nombre + " no esta cursando " + c.getNombre());
@@ -84,10 +86,15 @@ public class Alumno implements Comparable {
 
 	public void inscripcionAceptada(Curso c) {
 		
-		if(c.inscribir(this)) {
-			this.cursando.add(c);
+		if(c.getInscriptos().contains(this)) {
+			System.out.println("El alumno " + this.nombre + " ya esta en el curso");
 		}
-		else System.out.println("El alumno " + this.nombre + " no se pudo inscribir al curso");
+		else {
+			if(c.inscribir(this)) {
+				this.cursando.add(c);
+			}
+			else System.out.println("El alumno " + this.nombre + " no se pudo inscribir al curso");
+		}
 	}
 	
 	public int cantCursandoEnCiclo(int ciclo) {

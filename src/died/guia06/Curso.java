@@ -84,6 +84,9 @@ public class Curso {
 		return log;
 	}
 	
+	public void setInscriptos(Alumno a) {
+		this.inscriptos.add(a);
+	}
 	
 	//----------metodos------------
 	
@@ -120,6 +123,7 @@ public class Curso {
 			}
 			
 			this.inscriptos.add(a);
+			this.cupo--;
 			
 			return true;
 		}
@@ -134,16 +138,19 @@ public class Curso {
 	
 	public void imprimirInscriptos()  {
 		
-	    CompararAlfabeticamente comparacion = new CompararAlfabeticamente();
-		Collections.sort(inscriptos, comparacion);
-		
-		System.out.println("Inscriptos\n");
-		
-		for(int i=0; i<inscriptos.size() ; i++){
-			System.out.println("Nombre: "+inscriptos.get(i).getNombre() +" , Nro. Libreta: " + inscriptos.get(i).getNroLibreta() );	
-		}
+		if(this.inscriptos.size() > 0) {
+			CompararAlfabeticamente comparacion = new CompararAlfabeticamente();
+			Collections.sort(inscriptos, comparacion);
+			
+			System.out.println("Inscriptos en " + this.nombre + "\n");
+			
+			for(int i=0; i<inscriptos.size() ; i++){
+				System.out.println("Nombre: "+inscriptos.get(i).getNombre() +" , Nro. Libreta: " + inscriptos.get(i).getNroLibreta() );	
+			}
 
-		
+		}
+		else System.out.println("No hay inscriptos en el curso "+this.getNombre()+"\n");
+	
 		try {
 			log.registrar(this, "imprimir listado",this.inscriptos.size()+ " registros ");
 		}
@@ -152,6 +159,10 @@ public class Curso {
 			e.printStackTrace();
 		}
 		
+	}
+
+	public void quitar(Alumno a) {
+		this.inscriptos.remove(a);
 	}
 	
 	
