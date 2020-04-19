@@ -2,6 +2,7 @@ package died.guia06;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import died.guia06.util.Registro;
@@ -26,40 +27,14 @@ public class Curso {
 	
 	private Registro log;
 	
+	
+	//----------constructores------
+	
 	public Curso() {
 		super();
 		this.inscriptos = new ArrayList<Alumno>();
 		this.log = new Registro();
 	}
-	
-
-	/**
-	 * Este método, verifica si el alumno se puede inscribir y si es así lo agrega al curso,
-	 * agrega el curso a la lista de cursos en los que está inscripto el alumno y retorna verdadero.
-	 * Caso contrario retorna falso y no agrega el alumno a la lista de inscriptos ni el curso a la lista
-	 * de cursos en los que el alumno está inscripto.
-	 * 
-	 * Para poder inscribirse un alumno debe
-	 * 		a) tener como minimo los creditos necesarios
-	 *      b) tener cupo disponibles
-	 *      c) puede estar inscripto en simultáneo a no más de 3 cursos del mismo ciclo lectivo.
-	 * @param a
-	 * @return
-	 */
-	public Boolean inscribir(Alumno a){
-		try {
-			log.registrar(this, "inscribir ",a.toString());
-			
-		}
-		catch(IOException e){
-			System.out.println("Hubo un problema:"+e.getMessage());
-			e.printStackTrace();
-		}
-		return false;
-	}
-	
-	
-	//----------constructores------
 
 	public Curso(Integer id, String nombre, Integer cicloLectivo, Integer cupo,
 			Integer creditos, Integer creditosRequeridos) {
@@ -73,7 +48,6 @@ public class Curso {
 		this.inscriptos = new ArrayList<Alumno>();
 		this.log = new Registro();
 	}
-	
 	
 	
 	//----------geters y seters---------
@@ -109,14 +83,65 @@ public class Curso {
 	public Registro getLog() {
 		return log;
 	}
+	
+	
+	//----------metodos------------
+	
+
+	/**
+	 * Este método, verifica si el alumno se puede inscribir y si es así lo agrega al curso,
+	 * agrega el curso a la lista de cursos en los que está inscripto el alumno y retorna verdadero.
+	 * Caso contrario retorna falso y no agrega el alumno a la lista de inscriptos ni el curso a la lista
+	 * de cursos en los que el alumno está inscripto.
+	 * 
+	 * Para poder inscribirse un alumno debe
+	 * 		a) tener como minimo los creditos necesarios
+	 *      b) tener cupo disponibles
+	 *      c) puede estar inscripto en simultáneo a no más de 3 cursos del mismo ciclo lectivo.
+	 * @param a
+	 * @return
+	 */
 
 	
-	//--------------------------
+	public boolean inscribir(Alumno a) {
+		
+		int cantCursando = a.cantCursandoEnCiclo(this.getCicloLectivo());
+		int cantCred = a.creditosObtenidos();
+		
+		if(cantCursando<=3 && this.getCupo()>0 && this.getCreditosRequeridos()<=cantCred) {
+			
+			try {
+				log.registrar(this, "inscribir ",a.toString());
+				
+			}
+			catch(IOException e){
+				System.out.println("Hubo un problema:"+e.getMessage());
+				e.printStackTrace();
+			}
+			
+			return true;
+		}
+		else return false;
+	}
+
 	
 	/**
 	 * imprime los inscriptos en orden alfabetico
 	 */
-	public void imprimirInscriptos() {
+
+	
+	public void imprimirInscriptos()  {
+		
+	    CompararAlfabeticamente comparacion = new CompararAlfabeticamente();
+		Collections.sort(inscriptos, comparacion);
+		
+		System.out.println("Inscriptos\n");
+		
+		for(int i=0; i<inscriptos.size() ; i++){
+			System.out.println("Nombre: "+inscriptos.get(i).getNombre() +" , Nro. Libreta: " + inscriptos.get(i).getNroLibreta() );	
+		}
+
+		
 		try {
 			log.registrar(this, "imprimir listado",this.inscriptos.size()+ " registros ");
 		}
@@ -124,17 +149,8 @@ public class Curso {
 			System.out.println("Hubo un problema:"+e.getMessage());
 			e.printStackTrace();
 		}
+		
 	}
 	
-	/*public boolean inscribir(Alumno a) {
-		
-		int cantCursando = a.cantCursandoEnCiclo(this.getCicloLectivo());
-		int cantCred = a.creditosObtenidos();
-		
-		if(cantCursando<=3 && this.getCupo()>0 && this.getCreditosRequeridos()<=cantCred) {
-			return true;
-		}
-		else return false;
-	}*/
-
+	
 }
