@@ -3,7 +3,7 @@ package died.guia06;
 import java.util.List;
 
 
-public class Alumno {
+public class Alumno implements Comparable {
 
 	private String nombre;
 	private Integer nroLibreta;
@@ -20,6 +20,17 @@ public class Alumno {
 
 	public void inscripcionAceptada(Curso c) {
 		//
+	}
+	
+	public Boolean equals(Alumno otro) {
+		
+		if(this.nroLibreta == otro.nroLibreta) return true;
+		else return false;
+	}
+
+	public int compareTo(Alumno otro) {
+		
+		return this.nombre.compareTo(otro.nombre);
 	}
 	
 	
