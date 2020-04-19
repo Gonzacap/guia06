@@ -5,7 +5,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import Excepciones.CreditInsufException;
+import Excepciones.MaxCursosException;
+import Excepciones.RegistroAuditoriaException;
+import Excepciones.SinCupoException;
+import Excepciones.YaInscException;
 import died.guia06.util.Registro;
+
 
 /**
  * Clase que representa un curso. Un curso se identifica por su ID y por su nombre y ciclo lectivo.
@@ -163,6 +169,37 @@ public class Curso {
 
 	public void quitar(Alumno a) {
 		this.inscriptos.remove(a);
+	}
+	
+	public Boolean inscribirAlumno(Alumno a) throws Exception {
+		
+		int cantCursando = a.cantCursandoEnCiclo(this.getCicloLectivo());
+		int cantCred = a.creditosObtenidos();
+		
+		if(!this.inscriptos.contains(a)){
+			if(this.getCreditosRequeridos()<=cantCred){
+				if(cantCursando < 3){
+					if(this.getCupo()>0){
+						
+						try {
+							log.registrar(this, "inscribir ",a.toString());	
+						}
+						catch (IOException e) {
+							throw new RegistroAuditoriaException("Error al registrar");			
+						}
+						
+						this.inscriptos.add(a);
+						this.cupo--;
+						return true;
+					}
+					else throw new SinCupoException();
+				}
+				else throw new MaxCursosException();
+			}
+			else throw new CreditInsufException();
+		}
+		else throw new YaInscException();	
+
 	}
 	
 	
