@@ -185,7 +185,8 @@ public class Curso {
 							log.registrar(this, "inscribir ",a.toString());	
 						}
 						catch (IOException e) {
-							throw new RegistroAuditoriaException("Error al registrar");			
+							System.out.println("Hubo un problema:"+e.getMessage());
+							e.printStackTrace();		
 						}
 						
 						this.inscriptos.add(a);

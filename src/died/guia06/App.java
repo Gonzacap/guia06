@@ -2,18 +2,25 @@ package died.guia06;
 
 import java.util.ArrayList;
 
+import Excepciones.CreditInsufException;
+import Excepciones.MaxCursosException;
+import Excepciones.RegistroAuditoriaException;
+import Excepciones.SinCupoException;
+import Excepciones.YaInscException;
+
 public class App {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		
 		Alumno a1, a2, a3, a4;
-		Curso c1,c2, c3, c4;
+		Curso c1,c2, c3, c4,c5;
 		ArrayList<Curso> cursando, aux;
 		
 		c1 = new Curso(01, "Algoritmos", 2020, 3 , 15, 0);
-		c2 = new Curso(02, "Sintaxis", 2020, 20 , 2, 15);
-		c3 = new Curso(03, "Paradigmas", 2020, 20 , 2, 15);
+		c2 = new Curso(02, "Sintaxis", 2020, 2 , 20, 15);
+		c3 = new Curso(03, "Paradigmas", 2020, 2 , 20, 15);
 		c4 = new Curso(05, "Competitiva", 2020, 3, 25, 35);
+		c5 = new Curso(05, "Mat. Disc.", 2020, 3, 15, 0);
 		
 		a1 = new Alumno("Juan Dedossi", 12345);
 		a2 = new Alumno("Lukitas Pro", 12346);
@@ -60,8 +67,30 @@ public class App {
 		c2.imprimirInscriptos(); System.out.println("");
 		c3.imprimirInscriptos(); System.out.println("");
 		c4.imprimirInscriptos(); System.out.println("");
+		c5.imprimirInscriptos(); System.out.println("");
+	
+	
+		//Metodo inscribirAlumno con excepciones
+	
+		try {
+			c5.inscribirAlumno(a4);
+			
+		} catch (YaInscException  | SinCupoException | MaxCursosException | CreditInsufException | RegistroAuditoriaException e){
+			System.out.println("Hubo un problema:"+e.getMessage());
+			e.printStackTrace();
+		}
 		
+		try {
+			c4.inscribirAlumno(a1);
+			
+		} catch (YaInscException  | SinCupoException | MaxCursosException | CreditInsufException | RegistroAuditoriaException e){
+			System.out.println("Hubo un problema:"+e.getMessage());
+			e.printStackTrace();
+		}
+		
+	
 	}
+	
 	
 	
 }
