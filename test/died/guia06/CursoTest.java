@@ -14,10 +14,10 @@ class CursoTest {
 	@BeforeEach
 	public void init(){
 		
-		c1 = new Curso(01, "Algoritmos", 2019, 30 , 15, 0);
+		c1 = new Curso(01, "Algoritmos", 2020, 30 , 15, 0);
 		c2 = new Curso(02, "Sintaxis", 2020, 20 , 20, 15);
 		c3 = new Curso(03, "Paradigmas", 2020, 20 , 20, 15);
-		c4 = new Curso(04, "Competitiva", 2021, 30, 25, 35);
+		c4 = new Curso(04, "Competitiva", 2020, 30, 25, 35);
 		
 		a1 = new Alumno("Juan Dedossi", 12345);
 		a2 = new Alumno("Lukitas Pro", 12346);
@@ -39,13 +39,31 @@ class CursoTest {
 	@Test
 	void testNoSePudoInscribir1() {
 		a1.setCursando(cursando);
-		assertFalse(c1.inscribir(a1) && c1.getInscriptos().contains(a1));
+		
+		boolean inscribir = c1.inscribir(a1);
+		boolean contiene = c1.getInscriptos().contains(a1);
+		
+		assertFalse( inscribir && contiene);
 	}
 	
 	@Test
 	void testNoSePudoInscribir2() {
-		assertFalse(c3.inscribir(a3) && c3.getInscriptos().contains(a3));
+		boolean inscribir = c3.inscribir(a3);
+		boolean contiene = c3.getInscriptos().contains(a3);
+		assertFalse( inscribir && contiene );
 	}
 	
+	@Test
+	void testInscribirAlumno() throws Exception {
+		boolean inscribir = c1.inscribir(a2);
+		boolean contiene = c1.getInscriptos().contains(a2);
+		assertTrue(inscribir && contiene);
+	}
+	
+	@Test
+	void testNoInscribirAlumno () throws Exception {
+		a1.setCursando(cursando);
+		assertFalse(c1.inscribir(a1) && c1.getInscriptos().contains(a1));
+	}
 
 }

@@ -114,10 +114,10 @@ public class Curso {
 	
 	public boolean inscribir(Alumno a) {
 		
-		int cantCursando = a.cantCursandoEnCiclo(this.getCicloLectivo());
+		int cantCursando = a.cantCursandoEnCiclo(this.cicloLectivo);
 		int cantCred = a.creditosObtenidos();
 		
-		if(cantCursando<=3 && this.getCupo()>0 && this.getCreditosRequeridos()<=cantCred) {
+		if(cantCursando<3 && this.getCupo()>0 && this.getCreditosRequeridos()<=cantCred) {
 			
 			try {
 				log.registrar(this, "inscribir ",a.toString());
